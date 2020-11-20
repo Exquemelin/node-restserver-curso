@@ -56,8 +56,34 @@ let verificaAdmin_Role = (req, res, next) => {
 
 }
 
+// ==============================
+//  Verifica Token IMG
+// ==============================
+let verificaTokenImg = (req, res, next) => {
+
+    let token = req.query.token;
+
+    jwt.verify(token, process.env.SEED, (err, decoded) => {
+
+        if (err) {
+            return res.status(401).json({
+                ok: false,
+                err: {
+                    token,
+                    message: 'Token no válido'
+                }
+            });
+        };
+
+        req.usuario = decoded.usuario; // En el objeto codificado en el token hay un objeto usuario, por eso lo tendremos en el decoded también, y lo cargamos en el request
+        next();
+
+    });
+
+};
 
 module.exports = {
     verificaToken,
     verificaAdmin_Role,
+    verificaTokenImg,
 }
