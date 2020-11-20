@@ -18,13 +18,14 @@ let verificaToken = (req, res, next) => {
             return res.status(401).json({
                 ok: false,
                 err: {
+                    token,
                     message: 'Token no válido'
                 }
             });
         };
 
-        req.usuario = decoded.usuario; // En el objeto codificado en el token hay un objeto usuario, por eso lo tendremos en el decoded también.
-        console.log(decoded);
+        req.usuario = decoded.usuario; // En el objeto codificado en el token hay un objeto usuario, por eso lo tendremos en el decoded también, y lo cargamos en el request
+        // console.log(decoded);
         next();
 
     });
